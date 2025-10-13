@@ -99,7 +99,7 @@ def main(n: int, algo: FibType, print_result: bool):
         print(f"Fibonacci Series from 1 to {n}:")
         for i in range(1, n + 1):
             fib_dp.cache_clear()
-            elapsed_time, ops = run_and_time(fib_dp, i, False)
+            elapsed_time, ops = run_and_time(fib_dp, i, False) //need to confirm with professor about the print msg
             result = fib_dp(i)
             print(f"F({i}) = {result} (Time: {elapsed_time:.6f}, Operations: {ops})")
         
