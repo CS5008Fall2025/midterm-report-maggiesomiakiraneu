@@ -92,6 +92,8 @@ int main(int argc, char *argv[]) {
     ull ops;
     double time_elapsed;
     
+    //need to print out the series for all cases
+    //
     switch (type) {
         case 0:
             printf("Iterative Fibonacci\n");
@@ -114,14 +116,15 @@ int main(int argc, char *argv[]) {
                 printf("F(%d) = %llu (Time: %f, Operations: %llu)\n", i, result, time_elapsed, ops);
             }
             break;
+
         case 2:
             printf("Dynamic Programming Fibonacci\n");
             printf("Fibonacci Series from 1 to %d:\n", n);
             for (int i = 1; i <= n; i++) {
-                init_dp_table();  // ← Move this inside the loop
+                init_dp_table(); //had the table outside the loop. fixed.
                 ops = 0;
                 time_elapsed = time_function(fib_dp, i, &ops, false);
-                ull result = fib_dp(i, &ops);  // ← Fix this
+                ull result = fib_dp(i, &ops); //called wrong function
                 printf("F(%d) = %llu (Time: %f, Operations: %llu)\n", i, result, time_elapsed, ops);
             }
             break;
