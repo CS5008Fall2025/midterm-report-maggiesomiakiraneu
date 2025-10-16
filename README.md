@@ -95,7 +95,7 @@ To prove my Big(O), first, we will find the lower bound by approximating T(n-1) 
 
 T(n) = T(n-1) + T(n-2) + c
 
-= 2T(n-2) + c    //from the approximation T(n-1) ~ T(n-2)
+= 2T(n-2) + c    //from the approximation T(n-1) to T(n-2)
 
 = 2*(2T(n-4) + c) + c
 
@@ -103,7 +103,7 @@ T(n) = T(n-1) + T(n-2) + c
 
 = 8T(n-6) + 7c
 
-= 2^k * T(n - 2k) + (2^k - 1)*c
+= $2^k$ * T(n - 2k) + ($2^k$ - 1)*c
 
 Then, we will find the value of k for which n - 2k = 0, therefore k = n/2
 
@@ -306,11 +306,11 @@ For the second language implementation, I selected Python for several compelling
 
 Implementing the Fibonacci algorithms in C required careful attention to several low-level details that are abstracted away in higher-level languages.
 
-The biggest challenge was managing the memoization table for the dynamic programming version. I used a static array dp_table[MAX] with a maximum size of 100,000 elements. This meant using memset() to reset the table to zero before each DP test run. I also had to make sure the table was reinitialized properly to keep a clean state between different runs. I thought about whether to use stack or heap memory, but static allocation was simpler since it avoided manual malloc and free operations.
+The biggest challenge was managing the memoization table for the dynamic programming version. I used a static array `dp_table[MAX]` with a maximum size of 100,000 elements. This meant using `memset()` to reset the table to zero before each DP test run. I also had to make sure the table was reinitialized properly to keep a clean state between different runs. I thought about whether to use stack or heap memory, but static allocation was simpler since it avoided manual malloc and free operations.
 
-Another challenge was handling the fast growth of Fibonacci numbers. I used uint64_t (an unsigned 64-bit integer) to store values up to F(93) before overflow happens. Defining typedef uint64_t ull made the code easier to read while keeping accuracy.
+Another challenge was handling the fast growth of Fibonacci numbers. I used `uint64_t` to store values up to F(93) before overflow happens. Defining typedef `uint64_t` ull made the code easier to read while keeping accuracy.
 
-For timing, I used clock_gettime() with CLOCK_MONOTONIC to get precise measurements. The function calculates elapsed time in seconds by combining the seconds and nanoseconds from the timespec structure.
+For timing, I used `clock_gettime()` with CLOCK_MONOTONIC to get precise measurements. The function calculates elapsed time in seconds by combining the seconds and nanoseconds from the timespec structure.
 
 To track the number of operations, I passed a pointer to an unsigned long long counter through all function calls. This allowed each function to update the counter while still returning the Fibonacci result.
 
@@ -321,7 +321,7 @@ Even with these challenges, C showed clear performance benefits, running much fa
 ### Language 2: Python
 The Python version showed how good the language is for quick development and having advanced features built in.
 
-Python’s @lru_cache(maxsize=None) decorator from the functools module gives automatic memoization with just one line of code.
+Python’s `@lru_cache`(maxsize=None) decorator from the functools module gives automatic memoization with just one line of code.
 
 Also, Python has a default limit of about 1,000 recursive calls to prevent a stack overflow. To make the recursive Fibonacci work for larger numbers, I had to increase this limit. This is a restriction specific to Python. In C, recursion is only limited by the available stack space.
 
@@ -341,7 +341,7 @@ Memory management highlighted another key difference. In C, every array, pointer
 
 Python code was also shorter and easier to read. The dynamic programming version only required adding @lru_cache to the recursive function, while C needed a separate table, initialization, and cache logic. Timing and command-line parsing were simpler in Python, using time.perf_counter() and argparse, compared to manual handling in C.
 
-Each language had its own constraints. In Python, the recursion limit had to be increased using sys.setrecursionlimit() to handle large Fibonacci numbers. In C, I had to use uint64_t carefully to prevent integer overflow. Python can handle very large integers automatically, but this comes with extra computational cost.
+Each language had its own constraints. In Python, the recursion limit had to be increased using sys.setrecursionlimit() to handle large Fibonacci numbers. In C, I had to use `uint64_t` carefully to prevent integer overflow. Python can handle very large integers automatically, but this comes with extra computational cost.
 
 Debugging and testing were easier in Python, with informative error messages, clear stack traces, and an interactive REPL for quick testing. C caught type errors at compile time but runtime errors like segmentation faults were harder to diagnose, and every change required recompilation.
 
